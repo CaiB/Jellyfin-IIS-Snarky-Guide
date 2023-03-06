@@ -12,7 +12,17 @@ With that said, once it's set up, it mostly works well. I hope you don't plan to
 If you run into issues with this guide (typos, incorrect info, etc) feel free to open a GitHub issue and I'll try to fix it. If you just need help with a specific configuration, you can still try opening an issue, but please understand that there's an 80% chance I'll just tell you to ask on a support forum instead (in which case enjoy getting yelled at for daring to not use Linux).
 
 ## Table of Contents
-TODO: Make this
+- [Specifics](#specifics)
+- [1. Windows Server Installation](#1-windows-server-installation)
+- [2. Accounts and Remoting](#2-accounts-and-remoting)
+- [3. Install Jellyfin](#3-install-jellyfin)
+- [4. Configure Jellyfin](#4-configure-jellyfin)
+- [5. Install IIS](#5-install-iis)
+- [6. Configure IIS](#6-configure-iis)
+- [7. Going Public](#7-going-public)
+- [8. SSL Certificate](#8-ssl-certificate)
+- [9. Certificate Auto-Renewal](#9-certificate-auto-renewal)
+- [Finale](#finale)
 
 ## Specifics
 This guide is written for my usecase. If your usecase is different, I've tried to indicate which parts of the guide are specific to these details:
@@ -248,11 +258,10 @@ Just a quick checklist, you should probably know how to do these already.
     You'll need to just copy this to the default site's wwwroot folder (make sure to change this to the correct one if you are running other sites on this IIS server!)
     ```powershell
     cd '~/Downloads'
-    Invoke-WebRequest '{LINK}' -OutFile 'web.config' -UseBasicParsing
+    Invoke-WebRequest 'https://github.com/CaiB/Jellyfin-IIS-Snarky-Guide/raw/main/web.config' -OutFile 'web.config' -UseBasicParsing
     Copy-Item '.\web.config' 'C:\inetpub\wwwroot\'
     Restart-Service 'w3svc'
     ```
-    TODO: Add link once public  
     Now, if you attempt to access the IIS server on the regular HTTP port 80 using a web browser on another computer, it should result in you seeing the Jellyfin web UI as before. This means IIS is correctly forwarding your traffic. Note that HTTPS/port 443 won't work until you configure a SSL certificate, which we'll do later.
 
 3) Configure cryptography  
@@ -339,10 +348,9 @@ Just a quick checklist, you should probably know how to do these already.
     For convenience, I've included a pair of simple scripts in this repository that you can download, edit, and use for certificate renewal.
     ```powershell
     cd '~/Documents'
-    Invoke-WebRequest '{LINK}' -OutFile 'Update-IISCert.ps1' -UseBasicParsing
-    Invoke-WebRequest '{LINK}' -OutFile 'Update-IISCert-ToFile.ps1' -UseBasicParsing
+    Invoke-WebRequest 'https://github.com/CaiB/Jellyfin-IIS-Snarky-Guide/raw/main/Update-IISCert.ps1' -OutFile 'Update-IISCert.ps1' -UseBasicParsing
+    Invoke-WebRequest 'https://github.com/CaiB/Jellyfin-IIS-Snarky-Guide/raw/main/Update-IISCert-ToFile.ps1' -OutFile 'Update-IISCert-ToFile.ps1' -UseBasicParsing
     ```
-    TODO: Update links once public
 
     The `-ToFile.ps1` script just invokes the main script, redirecting output to a log file. This will be used in a moment when we make the renewal process a scheduled task.
 
