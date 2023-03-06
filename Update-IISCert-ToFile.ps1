@@ -1,0 +1,1 @@
+powershell .\Update-IISCert.ps1 > IISCertUpdateLog.txt
