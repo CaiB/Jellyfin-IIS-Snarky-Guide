@@ -238,7 +238,7 @@ Just a quick checklist, you should probably know how to do these already.
 ## 6. Configure IIS
 ⚠ **DISCLAIMER: I am far from an IIS expert, and some of this information may be wrong, suboptimal, or have negative security implications. Please let me know if so and I'll update the guide.**
 1) Proxy configuration  
-    This is taken directly from the official Jellyfin docs, and worked fine for me:
+    This is taken directly from the [official Jellyfin docs](https://jellyfin.org/docs/general/networking/iis/), and worked fine for me:
     ```powershell
     Set-WebConfigurationProperty -PSPath 'MACHINE/WEBROOT/APPHOST' -Filter 'system.webServer/proxy' -Name 'enabled' -Value 'True'
     Set-WebConfigurationProperty -PSPath 'MACHINE/WEBROOT/APPHOST' -Filter 'system.webServer/proxy/cache' -Name 'enabled' -Value 'False'
@@ -301,7 +301,7 @@ Just a quick checklist, you should probably know how to do these already.
     This procedure depends on your domain and your DNS provider, so look at their documentation on how to set this up.
 
 ## 8. SSL Certificate
-1) Download Post-ACME  
+1) Download Posh-ACME  
     We'll be using [Posh-ACME](https://github.com/rmbolger/Posh-ACME) to manage the SSL certificate and auto-renew it from [Let's Encrypt](https://letsencrypt.org/). Start by installing these 2 modules:
     ```powershell
     # You'll get some some confirmation prompts when running these.
@@ -318,7 +318,7 @@ Just a quick checklist, you should probably know how to do these already.
 2) Determine authentication method  
     There are 2 main ways that you can authenticate ownership of your domain, which is required to get the SSL certificate:
     - HTTP: this only works if your server is publicly accessible on port 80/443. I use a custom port, so cannot use this, but if you can, it'll be somewhat easier.
-    - DNS: this works even if your server is not publicly accessible at all, or on a non-standard port. You'll need to [ensure Posh-ACME has a plugin](https://poshac.me/docs/v4/Plugins/) that works with your DNS provider for the domain you're using. If not, you can either write one (like I did), request the creator of Posh-ACME writes one for you, or consider using software other than Posh-ACME.
+    - DNS: this works even if your server is not publicly accessible at all, or on a non-standard port. You'll need to [ensure Posh-ACME has a plugin](https://poshac.me/docs/v4/Plugins/) that works with your DNS provider for the domain you're using. If not, you can either write one (like I did), request the creator of Posh-ACME write one for you, or consider using software other than Posh-ACME.
 
 3) Set up the certificate  
     You should only need to do this once. To set up the certificate, start by choosing your SSL certificate provider (I use Let's Encrypt), reading their TOS, and requesting a certificate.  
@@ -361,7 +361,7 @@ Just a quick checklist, you should probably know how to do these already.
     - Line 7/8: Toggle these if you'd like to use the testing server (not needed if just testing once, but Let's Encrypt has pretty strict limits on the number of failed attempts per hour)
 
 3) Scheduled task  
-    This creates a task in the Windows task scheduler so that your certificate gets checked every morning, and if it needs renewal, that is done. Make sure to edit the lines below to replace all 3 config-specific details.
+    This creates a task in the Windows Task Scheduler so that your certificate gets checked every morning, and if it needs renewal, that is done. Make sure to edit the lines below to replace all 3 config-specific details.
     ```powershell
     $Action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ExecutionPolicy RemoteSigned .\Update-IISCert-ToFile.ps1' -WorkingDirectory 'C:\Users\{ADMIN}\Documents\'
     $Trigger = New-ScheduledTaskTrigger -Daily -At '4AM'
