@@ -29,7 +29,7 @@ If you run into issues with this guide (typos, incorrect info, etc) feel free to
 ## Specifics
 This guide is written for my usecase. If your usecase is different, I've tried to indicate which parts of the guide are specific to these details:
 - The server is part of a domain, with media stored on another domain server hosted via SMB share
-    - I've made efforts to include information for the non-domain usecase as well, but no guarantees. And in that case, it would be best practice use a [service account](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-service-accounts) instead of a full user account anyways, but the user approach _should_ also work.
+    - I've made efforts to include information for the non-domain usecase as well, but no guarantees. And in that case, it would be best practice to use a [service account](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-service-accounts) instead of a full user account anyways, but the user approach _should_ also work.
 - The server is installed in a VM that is running Windows Server Core 2022 (the minimal UI version)
     - This mostly means that the entire guide can be done through PowerShell, instead of GUIs.
 - Jellyfin is accessed through an IIS reverse-proxy over HTTPS only
@@ -206,8 +206,8 @@ Just a quick checklist, you should probably know how to do these already.
 
     After doing this, you'll need to attempt setting the FFmpeg path option in Jellyfin again, except this time it should work.
 
-7) Other customization  
-    At this point you can do all of the other customization you'd like as well. [Make sure to give the custom CSS field a try to really enjoy some janky UI.](https://twitter.com/MacylerJank/status/1632450092170084354) I'd recommend leaving the ports as default if you plan to set up IIS or another reverse proxy. Note that if you change the port, install plugins, or make certain other changes, Jellyfin needs to be restarted. This is as easy as:
+7) Other customizations  
+    At this point you can do all of the other customizations you'd like as well. [Make sure to give the custom CSS field a try to really enjoy some janky UI.](https://twitter.com/MacylerJank/status/1632450092170084354) I'd recommend leaving the ports as default if you plan to set up IIS or another reverse proxy. Note that if you change the port, install plugins, or make certain other changes, Jellyfin needs to be restarted. This is as easy as:
     ```powershell
     Restart-Service 'JellyfinServer'
     ```
@@ -270,7 +270,7 @@ Just a quick checklist, you should probably know how to do these already.
     I strongly recommend disabling the use of outdated protocols and cipher modes to strengthen security. To make this easy, Nartac Software makes a free tool called IIS Crypto that we'll use.  
     If you have easy GUI access to the server VM, I'd recommend downloading the GUI version of the tool, applying the template as explained below, and also having a look around the software to gain a better understanding of the options and what they mean. I'm a strong believer in using a good GUI to learn about what you are doing (even if the rest of this guide didn't seem that way). On Windows we're lucky enough to have the option of a nice GUI for some tasks, so use it.
 
-    There's different configuration templates you can pick, based on your needs:
+    There are different configuration templates you can pick, based on your needs:
     | GUI Name | CLI Name | Description |
     |---|---|---|
     | Best Practices | `best` | Useful if you plan to use some older clients/devices that don't support the most modern security, like Android devices, smart TVs, a bathtub, etc.
