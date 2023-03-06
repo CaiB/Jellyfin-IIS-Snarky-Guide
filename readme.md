@@ -2,6 +2,8 @@
 
 Setting up Jellyfin on Windows is not a smooth experience, so I'm writing this guide to detail my findings and frustrations, and perhaps help you get set up more easily.
 
+Some of my criticisms are exaggerated. That's kinda the whole point, it's right in the title. It makes writing documentation a whole lot more fun (this probably wouldn't exist otherwise), and maybe it'll even make reading it more fun.
+
 Jellyfin is open-source software, which comes with the usual caveats:
 - Poor documentation and instructions
 - A UI with annoying usability problems and useless error messages
@@ -34,8 +36,6 @@ This guide is written for my usecase. If your usecase is different, I've tried t
     - This can easily be installed on another server instead, or an existing IIS installation can be used, but for this guide I'm assuming they are on the same server.
 - Jellyfin runs as a Windows service
 - No Docker, no Apache, no Linux 😎
-
-There's one catch: while everything in this guide can be done through remote PowerShell only, there's a couple of times where you'll need to edit a text file. I prefer to just edit it on a network share and copy it over, but you can of course also just open it in Notepad if you're at the local console of the VM/server (`notepad.exe {FILE}`). Unlike Linux systems that usually ship with unusable garbage like Vim, Windows doesn't have a CLI text editor built in anymore, since those were 16-bit legacy programs that no longer work on 64-bit systems.
 
 ## 1. Windows Server Installation
 Just a quick checklist, you should probably know how to do these already.
@@ -84,6 +84,8 @@ Just a quick checklist, you should probably know how to do these already.
     Enter-PSSession -ComputerName '{HOSTNAME}' -Credential $JFCred
     ```
     The rest of this guide is written such that you won't need to access the VM's desktop/GUI at all anymore. 𝑬𝒎𝒃𝒓𝒂𝒄𝒆 𝒕𝒉𝒆 𝑷𝒐𝒘𝒆𝒓𝑺𝒉𝒆𝒍𝒍~
+
+    There's one catch: There's a couple of times where you'll need to edit a text file. I prefer to just edit it on a network share and copy it over, but you can of course also just open it in Notepad if you're at the local console of the VM/server (`notepad.exe {FILE}`). Unlike Linux systems that usually ship with unusable garbage like Vim, Windows doesn't have a CLI text editor built in anymore, since those were 16-bit legacy programs that no longer work on 64-bit systems.
 
 ## 3. Install Jellyfin
 1) Install Microsoft Visual C++ Redistributable  
@@ -188,7 +190,7 @@ Just a quick checklist, you should probably know how to do these already.
 
 6) Configure FFmpeg  
     (Even if playback worked in step 5, I'd recommend verifying this setting is correct)  
-    Back in the ≡ menu, then Administration -> Dashboard, then Server -> Playback, check the "FFmpeg path" option. For me it's blank by default, enter the path `C:\Program Files\Jellyfin\ffmpeg.exe` and click save all the way at the bottom of the page.
+    Back in the ≡ menu, then Administration -> Dashboard, then Server -> Playback, check the "FFmpeg path" option. For me it's blank by default, so enter the path `C:\Program Files\Jellyfin\ffmpeg.exe` and click save all the way at the bottom of the page.
 
     **If on Server Core**, you'll likely get the worst error message yet:
     > We're unable to find FFmpeg using the path you've entered. FFprobe is also required and must exist in the same folder. These components are normally bundled together in the same download. Please check the path and try again.
@@ -385,6 +387,6 @@ Just a quick checklist, you should probably know how to do these already.
     The opposite of step 4 above, just go back and remove the `-Force` from the script again. There's no reason to actually renew the certificate every day, since Let's Encrypt certificates expire after 90 days.
 
 ## Finale
-You're done. Hopefully you've got a fully working Jellyfin + IIS setup working now.
+You're done. Hopefully you've got a fully working Jellyfin + IIS setup now.
 
 Thanks for reading my guide. Like mentioned previously, if you found any mistakes in this guide, please open an issue here on GitHub and I'll try to fix it. Enjoy your new media server!
