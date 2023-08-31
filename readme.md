@@ -70,7 +70,7 @@ Just a quick checklist, you should probably know how to do these already.
 3) Set up PowerShell remoting  
     **If not domain-joined**, you'll need to find the procedure for this elsewhere, but it should only take a few additional steps.
 
-    **If domain-joined**, you'll want to use PowerShell remoting to manage the server from another domain-joined computer more easily. This is super useful for pasting in text in the following steps. By default, local administrator accounts are already able to use PS remoting without needing to be added to any this group.  
+    **If domain-joined**, you'll want to use PowerShell remoting to manage the server from another domain-joined computer more easily. This is super useful for pasting in text in the following steps. By default, local administrator accounts are already able to use PS remoting without needing to be added to any additional groups.  
     **Not required:** If you'd like to be able to remote in as the non-admin user as well, you can use this:
     ```powershell
     Add-LocalGroupMember -Group 'Remote Management Users' -Member '{DOMAIN}\{USER}'
